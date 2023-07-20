@@ -20,9 +20,10 @@ const processTheJoke = () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield fetch(url, options);
         const message = yield response.json();
         console.log(message.joke);
+        let joke = document.getElementById('jokeMessage');
+        joke.innerHTML = `" ${message.joke} "`;
     }
     catch (error) {
         console.error(error);
     }
 });
-processTheJoke();
