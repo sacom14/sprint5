@@ -8,7 +8,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const url = ('https://icanhazdadjoke.com/');
+const api_id = '14da9090c8517409168e96826bf96663';
+const weather = 'https://api.openweathermap.org/data/2.5/weather?q=Barcelona&appid=14da9090c8517409168e96826bf96663&lang=ca';
+const header = {
+    method: 'GET',
+    // Headers: {
+    //     // 'Accept': 'application/json'
+    // }
+};
+const showWheater = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        let response = yield fetch(weather);
+        let message = yield response.json();
+        let weatherMessage = document.getElementById('weather');
+        weatherMessage.innerHTML = `El temps d'avui a Barcelona: ${message.weather[0].description}`;
+    }
+    catch (error) {
+        console.error(error);
+    }
+});
+showWheater();
+const url = 'https://icanhazdadjoke.com/';
 const options = {
     method: 'GET',
     headers: {
@@ -19,8 +39,8 @@ const reportAcudits = []; //guardamos array de objetos.
 let selectedScore = 0; //guardamos el número seleccionado de los botones antes de enviarlo.
 const processTheJoke = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield fetch(url, options);
-        const message = yield response.json(); //lo pasamos a json
+        let response = yield fetch(url, options);
+        let message = yield response.json(); //lo pasamos a json
         console.log(message.joke);
         let joke = document.getElementById('jokeMessage');
         joke.innerHTML = `" ${message.joke} "`; //imprimimos el mensaje por pantalla
@@ -37,9 +57,6 @@ const processTheJoke = () => __awaiter(void 0, void 0, void 0, function* () {
         console.error(error);
     }
 });
-function valorateScore() {
-    console.log(reportAcudits[reportAcudits.length - 1]);
-}
 const score = (score) => {
     if (reportAcudits.length > 0) {
         selectedScore = selectedScore === score ? 0 : score;

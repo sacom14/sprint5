@@ -1,4 +1,26 @@
-const url = ('https://icanhazdadjoke.com/');
+const api_id='14da9090c8517409168e96826bf96663'; 
+
+const weather ='https://api.openweathermap.org/data/2.5/weather?q=Barcelona&appid=14da9090c8517409168e96826bf96663&lang=ca';
+const header = {
+    method: 'GET',
+    // Headers: {
+    //     // 'Accept': 'application/json'
+    // }
+};
+const showWheater = async()=>{
+    try{
+        let response = await fetch(weather);
+        let message = await response.json();
+        let weatherMessage = document.getElementById('weather') as HTMLParagraphElement;
+        weatherMessage.innerHTML = `El temps d'avui a Barcelona: ${message.weather[0].description}`;
+    }catch(error){
+        console.error(error);
+
+    }
+} 
+showWheater();
+
+const url = 'https://icanhazdadjoke.com/';
 const options = {
     method: 'GET',
     headers: {
@@ -15,8 +37,8 @@ let selectedScore: number | 0 = 0; //guardamos el número seleccionado de los bo
 
 const processTheJoke = async () => {
     try {
-        const response = await fetch(url, options)
-        const message = await response.json(); //lo pasamos a json
+        let response = await fetch(url, options)
+        let message = await response.json(); //lo pasamos a json
         console.log(message.joke);
         let joke = document.getElementById('jokeMessage') as HTMLParagraphElement;
         joke.innerHTML = `" ${message.joke} "`; //imprimimos el mensaje por pantalla
@@ -33,9 +55,6 @@ const processTheJoke = async () => {
     } catch (error) {
         console.error(error);
     }
-}
-function valorateScore(){
-    console.log(reportAcudits[reportAcudits.length-1]);
 }
 const score = (score: number) => {
     if (reportAcudits.length > 0) {
