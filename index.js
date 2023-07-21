@@ -90,3 +90,12 @@ const score = (score) => {
         console.log(`score seleccionada: ${selectedScore}`);
     }
 };
+//fer canviar el background amb SVG 
+const button = document.querySelector('.btn');
+const container = document.querySelector('.container');
+const formesCss = ['acuditForma1', 'acuditForma2', 'acuditForma3', 'acuditFroma4'];
+button === null || button === void 0 ? void 0 : button.addEventListener('click', () => {
+    const random = formesCss[Math.floor(Math.random() * formesCss.length)];
+    container === null || container === void 0 ? void 0 : container.classList.remove(...formesCss);
+    container === null || container === void 0 ? void 0 : container.classList.add(random);
+});

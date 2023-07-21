@@ -97,3 +97,17 @@ const score = (score: number) => {
     }
 }
 
+//fer canviar el background amb SVG 
+const button = document.querySelector('.btn') as HTMLButtonElement |null;
+const container = document.querySelector('.container') as HTMLElement |null;
+
+const formesCss = ['acuditForma1', 'acuditForma2', 'acuditForma3', 'acuditFroma4'];
+
+button?.addEventListener('click', ()=>{
+    const random = formesCss[Math.floor(Math.random()*formesCss.length)];
+
+    container?.classList.remove(...formesCss);
+    container?.classList.add(random);
+});
+
+
