@@ -8,8 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const api_id = '14da9090c8517409168e96826bf96663';
-const weather = 'https://api.openweathermap.org/data/2.5/weather?q=Barcelona&appid=14da9090c8517409168e96826bf96663&lang=ca';
+const weatherUrl = 'https://api.openweathermap.org/data/2.5/weather?q=Barcelona&appid=14da9090c8517409168e96826bf96663&lang=ca';
 const header = {
     method: 'GET',
     // Headers: {
@@ -18,7 +17,7 @@ const header = {
 };
 const showWheater = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let response = yield fetch(weather);
+        let response = yield fetch(weatherUrl);
         let message = yield response.json();
         let weatherMessage = document.getElementById('weather');
         weatherMessage.innerHTML = `El temps d'avui a Barcelona: ${message.weather[0].description}`;
@@ -28,30 +27,58 @@ const showWheater = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 showWheater();
-const url = 'https://icanhazdadjoke.com/';
-const options = {
+//chistes de dadJoke
+const dadJokeUrl = 'https://icanhazdadjoke.com/';
+const optionsDadJoke = {
     method: 'GET',
     headers: {
         'Accept': 'application/json'
     }
 };
+//chistes de otra api
+const chuckJokeUrl = 'https://api.chucknorris.io/jokes/random';
+const optionsChukJoke = {
+    method: 'GET',
+    //no hace falta el get realmente
+};
 const reportAcudits = []; //guardamos array de objetos.
+const reportChuckAcudits = [];
 let selectedScore = 0; //guardamos el número seleccionado de los botones antes de enviarlo.
+let lastUsedAPI = 'dadJoke';
 const processTheJoke = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let response = yield fetch(url, options);
-        let message = yield response.json(); //lo pasamos a json
-        console.log(message.joke);
-        let joke = document.getElementById('jokeMessage');
-        joke.innerHTML = `" ${message.joke} "`; //imprimimos el mensaje por pantalla
-        const jokeScore = {
-            joke: message.joke,
-            score: selectedScore,
-            date: selectedScore !== 0 ? new Date().toDateString() : 0,
-        };
-        console.log(`joke: ${jokeScore.joke}, score: ${jokeScore.score}, date: ${jokeScore.date} `);
-        reportAcudits.push(jokeScore);
-        selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.
+        if (lastUsedAPI === "dadJoke") { //la primera API
+            lastUsedAPI = "chuckJoke";
+            let response = yield fetch(dadJokeUrl, optionsDadJoke);
+            let message = yield response.json(); //lo pasamos a json
+            console.log(message.joke);
+            let joke = document.getElementById('jokeMessage');
+            joke.innerHTML = `" ${message.joke} "`; //imprimimos el mensaje por pantalla
+            const dadJokeScore = {
+                joke: message.joke,
+                score: selectedScore,
+                date: selectedScore !== 0 ? new Date().toDateString() : 0,
+            };
+            console.log(`joke: ${dadJokeScore.joke}, score: ${dadJokeScore.score}, date: ${dadJokeScore.date} `);
+            reportAcudits.push(dadJokeScore);
+            selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.  
+        }
+        else { //para la segunda API
+            lastUsedAPI = "dadJoke";
+            let response = yield fetch(chuckJokeUrl);
+            let message = yield response.json(); //lo pasamos a json
+            console.log(message.value);
+            let joke = document.getElementById('jokeMessage');
+            joke.innerHTML = `" ${message.value} "`; //imprimimos el mensaje por pantalla
+            const chuckJokeScore = {
+                joke: message.value,
+                score: selectedScore,
+                date: selectedScore !== 0 ? new Date().toDateString() : 0,
+            };
+            console.log(`joke: ${chuckJokeScore.joke}, score: ${chuckJokeScore.score}, date: ${chuckJokeScore.date} `);
+            reportChuckAcudits.push(chuckJokeScore);
+            selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.  
+        }
     }
     catch (error) {
         console.error(error);
