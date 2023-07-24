@@ -38,7 +38,7 @@ const optionsChukJoke = {
     //no hace falta el get realmente
 }
 interface ChukJoke {
-    joke: string;
+    value: string;
     score: number | 0;
     date: string | 0;
 }
@@ -55,59 +55,64 @@ const processTheJoke = async () => {
             lastUsedAPI = "chuckJoke";
             let response = await fetch(dadJokeUrl, optionsDadJoke)
             let message = await response.json(); //lo pasamos a json
-            console.log(message.joke);
+
             let joke = document.getElementById('jokeMessage') as HTMLParagraphElement;
             joke.innerHTML = `" ${message.joke} "`; //imprimimos el mensaje por pantalla
-
-            const dadJokeScore: Joke = {  //crear objeto de los chistes
-                joke: message.joke,
-                score: selectedScore,
-                date: selectedScore !== 0 ? new Date().toDateString() : 0,
-            };
-            console.log(`joke: ${dadJokeScore.joke}, score: ${dadJokeScore.score}, date: ${dadJokeScore.date} `);
-            reportAcudits.push(dadJokeScore);
-            selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.  
-
+            reportAcudits.push(message);
+            selectedScore = 0;// es para reiniciar el valaor de la puntuación seleccionada.  
+            const valorationElement = document.querySelector(".visibleValoration"); //accedemos a los votones de valoración
+            if (valorationElement) {
+                (valorationElement as HTMLElement).style.display = "block"; //hacemos visible los botones de valoración
+            }
         } else { //para la segunda API
             lastUsedAPI = "dadJoke";
             let response = await fetch(chuckJokeUrl)
             let message = await response.json(); //lo pasamos a json
-            console.log(message.value);
+
             let joke = document.getElementById('jokeMessage') as HTMLParagraphElement;
             joke.innerHTML = `" ${message.value} "`; //imprimimos el mensaje por pantalla
 
-            const chuckJokeScore: ChukJoke = {  //crear objeto de los chistes
-                joke: message.value,
-                score: selectedScore,
-                date: selectedScore !== 0 ? new Date().toDateString() : 0,
-            };
-            console.log(`joke: ${chuckJokeScore.joke}, score: ${chuckJokeScore.score}, date: ${chuckJokeScore.date} `);
-            reportChuckAcudits.push(chuckJokeScore);
+            reportChuckAcudits.push(message);
             selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.  
         }
-
     } catch (error) {
         console.error(error);
     }
 }
 const score = (score: number) => {
-    if (reportAcudits.length > 0) {
+    if (lastUsedAPI === "chuckJoke") {
         selectedScore = selectedScore === score ? 0 : score;
         console.log(`score seleccionada: ${selectedScore}`);
+        const dadJokeScore: Joke = {  //crear objeto de los chistes
+            joke: reportAcudits[reportAcudits.length - 1].joke,
+            score: selectedScore,
+            date: selectedScore !== 0 ? new Date().toDateString() : 0,
+        };
+        console.log(`joke: ${dadJokeScore.joke}, score: ${dadJokeScore.score}, date: ${dadJokeScore.date} `);
+        reportAcudits.push(dadJokeScore);
+    } else {
+        selectedScore = selectedScore === score ? 0 : score;
+        console.log(`score seleccionada: ${selectedScore}`);
+        const chuckJokeScore: ChukJoke = {  //crear objeto de los chistes
+            value: reportChuckAcudits[reportChuckAcudits.length - 1].value,
+            score: selectedScore,
+            date: selectedScore !== 0 ? new Date().toDateString() : 0,
+        };
+        console.log(`joke: ${chuckJokeScore.value}, score: ${chuckJokeScore.score}, date: ${chuckJokeScore.date} `);
+        reportChuckAcudits.push(chuckJokeScore);
     }
 }
 
 //fer canviar el background amb SVG 
-const button = document.querySelector('.btn') as HTMLButtonElement |null;
-const container = document.querySelector('.container') as HTMLElement |null;
+const button = document.querySelector('.btn') as HTMLButtonElement | null;
+const container = document.querySelector('.container') as HTMLElement | null;
 
 const formesCss = ['acuditForma1', 'acuditForma2', 'acuditForma3', 'acuditFroma4'];
 
-button?.addEventListener('click', ()=>{
-    const random = formesCss[Math.floor(Math.random()*formesCss.length)];
+button?.addEventListener('click', () => {
+    const random = formesCss[Math.floor(Math.random() * formesCss.length)];
 
     container?.classList.remove(...formesCss);
     container?.classList.add(random);
 });
-
 

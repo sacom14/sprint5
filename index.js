@@ -51,32 +51,22 @@ const processTheJoke = () => __awaiter(void 0, void 0, void 0, function* () {
             lastUsedAPI = "chuckJoke";
             let response = yield fetch(dadJokeUrl, optionsDadJoke);
             let message = yield response.json(); //lo pasamos a json
-            console.log(message.joke);
             let joke = document.getElementById('jokeMessage');
             joke.innerHTML = `" ${message.joke} "`; //imprimimos el mensaje por pantalla
-            const dadJokeScore = {
-                joke: message.joke,
-                score: selectedScore,
-                date: selectedScore !== 0 ? new Date().toDateString() : 0,
-            };
-            console.log(`joke: ${dadJokeScore.joke}, score: ${dadJokeScore.score}, date: ${dadJokeScore.date} `);
-            reportAcudits.push(dadJokeScore);
+            reportAcudits.push(message);
             selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.  
+            const valorationElement = document.querySelector(".visibleValoration"); //accedemos a los votones de valoración
+            if (valorationElement) {
+                valorationElement.style.display = "block"; //hacemos visible los botones de valoración
+            }
         }
         else { //para la segunda API
             lastUsedAPI = "dadJoke";
             let response = yield fetch(chuckJokeUrl);
             let message = yield response.json(); //lo pasamos a json
-            console.log(message.value);
             let joke = document.getElementById('jokeMessage');
             joke.innerHTML = `" ${message.value} "`; //imprimimos el mensaje por pantalla
-            const chuckJokeScore = {
-                joke: message.value,
-                score: selectedScore,
-                date: selectedScore !== 0 ? new Date().toDateString() : 0,
-            };
-            console.log(`joke: ${chuckJokeScore.joke}, score: ${chuckJokeScore.score}, date: ${chuckJokeScore.date} `);
-            reportChuckAcudits.push(chuckJokeScore);
+            reportChuckAcudits.push(message);
             selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.  
         }
     }
@@ -85,9 +75,27 @@ const processTheJoke = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 const score = (score) => {
-    if (reportAcudits.length > 0) {
+    if (lastUsedAPI === "chuckJoke") {
         selectedScore = selectedScore === score ? 0 : score;
         console.log(`score seleccionada: ${selectedScore}`);
+        const dadJokeScore = {
+            joke: reportAcudits[reportAcudits.length - 1].joke,
+            score: selectedScore,
+            date: selectedScore !== 0 ? new Date().toDateString() : 0,
+        };
+        console.log(`joke: ${dadJokeScore.joke}, score: ${dadJokeScore.score}, date: ${dadJokeScore.date} `);
+        reportAcudits.push(dadJokeScore);
+    }
+    else {
+        selectedScore = selectedScore === score ? 0 : score;
+        console.log(`score seleccionada: ${selectedScore}`);
+        const chuckJokeScore = {
+            value: reportChuckAcudits[reportChuckAcudits.length - 1].value,
+            score: selectedScore,
+            date: selectedScore !== 0 ? new Date().toDateString() : 0,
+        };
+        console.log(`joke: ${chuckJokeScore.value}, score: ${chuckJokeScore.score}, date: ${chuckJokeScore.date} `);
+        reportChuckAcudits.push(chuckJokeScore);
     }
 };
 //fer canviar el background amb SVG 
