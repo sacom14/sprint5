@@ -82,7 +82,6 @@ const processTheJoke = async () => {
 const score = (score: number) => {
     if (lastUsedAPI === "chuckJoke") {
         selectedScore = selectedScore === score ? 0 : score;
-        console.log(`score seleccionada: ${selectedScore}`);
         const dadJokeScore: Joke = {  //crear objeto de los chistes
             joke: reportAcudits[reportAcudits.length - 1].joke,
             score: selectedScore,
@@ -92,7 +91,6 @@ const score = (score: number) => {
         reportAcudits.push(dadJokeScore);
     } else {
         selectedScore = selectedScore === score ? 0 : score;
-        console.log(`score seleccionada: ${selectedScore}`);
         const chuckJokeScore: ChukJoke = {  //crear objeto de los chistes
             value: reportChuckAcudits[reportChuckAcudits.length - 1].value,
             score: selectedScore,

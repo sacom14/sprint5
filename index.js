@@ -77,7 +77,6 @@ const processTheJoke = () => __awaiter(void 0, void 0, void 0, function* () {
 const score = (score) => {
     if (lastUsedAPI === "chuckJoke") {
         selectedScore = selectedScore === score ? 0 : score;
-        console.log(`score seleccionada: ${selectedScore}`);
         const dadJokeScore = {
             joke: reportAcudits[reportAcudits.length - 1].joke,
             score: selectedScore,
@@ -88,7 +87,6 @@ const score = (score) => {
     }
     else {
         selectedScore = selectedScore === score ? 0 : score;
-        console.log(`score seleccionada: ${selectedScore}`);
         const chuckJokeScore = {
             value: reportChuckAcudits[reportChuckAcudits.length - 1].value,
             score: selectedScore,
