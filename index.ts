@@ -46,16 +46,13 @@ interface ChukJoke {
 const reportAcudits: Joke[] = []; //guardamos array de objetos.
 const reportChuckAcudits: ChukJoke[] = [];
 let selectedScore: number | 0 = 0; //guardamos el número seleccionado de los botones antes de enviarlo.
-
-let lastUsedAPI: 'dadJoke' | 'chuckJoke' = 'dadJoke';
+let lastJoke = true;
 
 const processTheJoke = async () => {
     try {
-        if (lastUsedAPI === "dadJoke") { //la primera API
-            lastUsedAPI = "chuckJoke";
+        if (randomNum() === 1) { //la primera API
             dadFunction();
         } else { //para la segunda API
-            lastUsedAPI = "dadJoke";
             chuckFunction();
         }
     } catch (error) {
@@ -71,6 +68,7 @@ async function dadFunction() {
     joke.innerHTML = `" ${message.joke} "`; //imprimimos el mensaje por pantalla
     reportAcudits.push(message);
     selectedScore = 0;// es para reiniciar el valaor de la puntuación seleccionada.  
+    lastJoke = true;
     const valorationElement = document.querySelector(".visibleValoration"); //accedemos a los votones de valoración
     if (valorationElement) {
         (valorationElement as HTMLElement).style.display = "block"; //hacemos visible los botones de valoración
@@ -86,12 +84,20 @@ async function chuckFunction() {
     joke.innerHTML = `" ${message.value} "`; //imprimimos el mensaje por pantalla
 
     reportChuckAcudits.push(message);
-    selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.  
+    selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.
+    lastJoke = false;
 }
 
+function randomNum(): number {
+
+    const randomNumber = Math.random();// Generar un número decimal aleatorio entre 0 (inclusive) y 1 (exclusive)
+    const scaledNumber = randomNumber * 1 + 1;// Escalar y desplazar el número para obtener un valor entre 1 y 2
+    const roundedNumber = Math.round(scaledNumber);// Redondear el número al entero más cercano (1 o 2)
+    return roundedNumber;
+}
 
 const score = (score: number) => {
-    if (lastUsedAPI === "chuckJoke") {
+    if (lastJoke) {
         selectedScore = selectedScore === score ? 0 : score;
         const dadJokeScore: Joke = {  //crear objeto de los chistes
             joke: reportAcudits[reportAcudits.length - 1].joke,

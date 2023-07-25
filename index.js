@@ -44,38 +44,56 @@ const optionsChukJoke = {
 const reportAcudits = []; //guardamos array de objetos.
 const reportChuckAcudits = [];
 let selectedScore = 0; //guardamos el número seleccionado de los botones antes de enviarlo.
-let lastUsedAPI = 'dadJoke';
+let lastJoke = true;
 const processTheJoke = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (lastUsedAPI === "dadJoke") { //la primera API
-            lastUsedAPI = "chuckJoke";
-            let response = yield fetch(dadJokeUrl, optionsDadJoke);
-            let message = yield response.json(); //lo pasamos a json
-            let joke = document.getElementById('jokeMessage');
-            joke.innerHTML = `" ${message.joke} "`; //imprimimos el mensaje por pantalla
-            reportAcudits.push(message);
-            selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.  
-            const valorationElement = document.querySelector(".visibleValoration"); //accedemos a los votones de valoración
-            if (valorationElement) {
-                valorationElement.style.display = "block"; //hacemos visible los botones de valoración
-            }
+        if (randomNum() === 1) { //la primera API
+            dadFunction();
         }
         else { //para la segunda API
-            lastUsedAPI = "dadJoke";
-            let response = yield fetch(chuckJokeUrl);
-            let message = yield response.json(); //lo pasamos a json
-            let joke = document.getElementById('jokeMessage');
-            joke.innerHTML = `" ${message.value} "`; //imprimimos el mensaje por pantalla
-            reportChuckAcudits.push(message);
-            selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.  
+            chuckFunction();
         }
     }
     catch (error) {
         console.error(error);
     }
 });
+//dadJoke function
+function dadFunction() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let response = yield fetch(dadJokeUrl, optionsDadJoke);
+        let message = yield response.json(); //lo pasamos a json
+        let joke = document.getElementById('jokeMessage');
+        joke.innerHTML = `" ${message.joke} "`; //imprimimos el mensaje por pantalla
+        reportAcudits.push(message);
+        selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.  
+        lastJoke = true;
+        const valorationElement = document.querySelector(".visibleValoration"); //accedemos a los votones de valoración
+        if (valorationElement) {
+            valorationElement.style.display = "block"; //hacemos visible los botones de valoración
+        }
+    });
+}
+//chuck function
+function chuckFunction() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let response = yield fetch(chuckJokeUrl);
+        let message = yield response.json(); //lo pasamos a json
+        let joke = document.getElementById('jokeMessage');
+        joke.innerHTML = `" ${message.value} "`; //imprimimos el mensaje por pantalla
+        reportChuckAcudits.push(message);
+        selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.
+        lastJoke = false;
+    });
+}
+function randomNum() {
+    const randomNumber = Math.random(); // Generar un número decimal aleatorio entre 0 (inclusive) y 1 (exclusive)
+    const scaledNumber = randomNumber * 1 + 1; // Escalar y desplazar el número para obtener un valor entre 1 y 2
+    const roundedNumber = Math.round(scaledNumber); // Redondear el número al entero más cercano (1 o 2)
+    return roundedNumber;
+}
 const score = (score) => {
-    if (lastUsedAPI === "chuckJoke") {
+    if (lastJoke) {
         selectedScore = selectedScore === score ? 0 : score;
         const dadJokeScore = {
             joke: reportAcudits[reportAcudits.length - 1].joke,
