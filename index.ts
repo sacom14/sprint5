@@ -57,21 +57,13 @@ const processTheJoke = async () => {
         } else { //para la segunda API
             lastUsedAPI = "dadJoke";
             chuckFunction();
-            let response = await fetch(chuckJokeUrl)
-            let message = await response.json(); //lo pasamos a json
-
-            let joke = document.getElementById('jokeMessage') as HTMLParagraphElement;
-            joke.innerHTML = `" ${message.value} "`; //imprimimos el mensaje por pantalla
-
-            reportChuckAcudits.push(message);
-            selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.  
         }
     } catch (error) {
         console.error(error);
     }
 }
 //dadJoke function
-async function dadFunction (){
+async function dadFunction() {
     let response = await fetch(dadJokeUrl, optionsDadJoke)
     let message = await response.json(); //lo pasamos a json
 
@@ -86,18 +78,15 @@ async function dadFunction (){
 }
 
 //chuck function
-async function chuckFunction(){
-    let response = await fetch(dadJokeUrl, optionsDadJoke)
+async function chuckFunction() {
+    let response = await fetch(chuckJokeUrl)
     let message = await response.json(); //lo pasamos a json
 
     let joke = document.getElementById('jokeMessage') as HTMLParagraphElement;
-    joke.innerHTML = `" ${message.joke} "`; //imprimimos el mensaje por pantalla
-    reportAcudits.push(message);
-    selectedScore = 0;// es para reiniciar el valaor de la puntuación seleccionada.  
-    const valorationElement = document.querySelector(".visibleValoration"); //accedemos a los votones de valoración
-    if (valorationElement) {
-        (valorationElement as HTMLElement).style.display = "block"; //hacemos visible los botones de valoración
-    }
+    joke.innerHTML = `" ${message.value} "`; //imprimimos el mensaje por pantalla
+
+    reportChuckAcudits.push(message);
+    selectedScore = 0; // es para reiniciar el valaor de la puntuación seleccionada.  
 }
 
 
