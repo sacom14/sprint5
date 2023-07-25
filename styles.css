@@ -64,22 +64,56 @@ h2 {
 }
 
 .bad {
-    background-color: red;
+    box-shadow: inset;
+	width: 20px;  /* Ancho del botón */
     height: 20px;
-    width: 20px;
-
+	border: 1px solid red; /* Borde */
+	background:red;/* Fondo */
+	border-radius: 5px;  /* Bordes redondos */
 }
+
+.bad:active, .bad:focus {
+	background:red;  /* Fondo más oscuro que el original */
+	box-shadow:inset 4px 4px 4px rgba(0,0,0,.3), inset -3px -3px 3px rgba(255,255,255,.2);
+}
+.bad:focus {
+    background:red;  /* Fondo más oscuro que el original */
+	box-shadow:inset 4px 4px 4px rgba(0,0,0,.3), inset -3px -3px 3px rgba(255,255,255,.2);
+}
+
 .medium{
-    background-color: yellow;
+    box-shadow: inset;
+	width: 20px;  /* Ancho del botón */
     height: 20px;
-    width: 20px;
+	border: 1px solid yellow; /* Borde */
+	background:yellow;/* Fondo */
+	border-radius: 5px;  /* Bordes redondos */
 }
-.fine{
-    background-color: green;
-    height: 20px;
-    width: 20px;
+.medium:active {
+	background:yellow;  /* Fondo más oscuro que el original */
+	box-shadow:inset 4px 4px 4px rgba(0,0,0,.3), inset -3px -3px 3px rgba(255,255,255,.2);
+}
+.medium:focus {
+    background:yellow;  /* Fondo más oscuro que el original */
+	box-shadow:inset 4px 4px 4px rgba(0,0,0,.3), inset -3px -3px 3px rgba(255,255,255,.2);
 }
 
+.fine{
+    box-shadow: inset;
+	width: 20px;  /* Ancho del botón */
+    height: 20px;
+	border: 1px solid green; /* Borde */
+	background:green;/* Fondo */
+	border-radius: 5px;  /* Bordes redondos */
+}
+.fine:active {
+	background:green;  /* Fondo más oscuro que el original */
+	box-shadow:inset 4px 4px 4px rgba(0,0,0,.3), inset -3px -3px 3px rgba(255,255,255,.2);
+}
+.fine:focus {
+    background:green;  /* Fondo más oscuro que el original */
+	box-shadow:inset 4px 4px 4px rgba(0,0,0,.3), inset -3px -3px 3px rgba(255,255,255,.2);
+}
 .buttonClass{
     margin-top: 30px;
 }

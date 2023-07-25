@@ -53,19 +53,10 @@ const processTheJoke = async () => {
     try {
         if (lastUsedAPI === "dadJoke") { //la primera API
             lastUsedAPI = "chuckJoke";
-            let response = await fetch(dadJokeUrl, optionsDadJoke)
-            let message = await response.json(); //lo pasamos a json
-
-            let joke = document.getElementById('jokeMessage') as HTMLParagraphElement;
-            joke.innerHTML = `" ${message.joke} "`; //imprimimos el mensaje por pantalla
-            reportAcudits.push(message);
-            selectedScore = 0;// es para reiniciar el valaor de la puntuación seleccionada.  
-            const valorationElement = document.querySelector(".visibleValoration"); //accedemos a los votones de valoración
-            if (valorationElement) {
-                (valorationElement as HTMLElement).style.display = "block"; //hacemos visible los botones de valoración
-            }
+            dadFunction();
         } else { //para la segunda API
             lastUsedAPI = "dadJoke";
+            chuckFunction();
             let response = await fetch(chuckJokeUrl)
             let message = await response.json(); //lo pasamos a json
 
@@ -79,6 +70,37 @@ const processTheJoke = async () => {
         console.error(error);
     }
 }
+//dadJoke function
+async function dadFunction (){
+    let response = await fetch(dadJokeUrl, optionsDadJoke)
+    let message = await response.json(); //lo pasamos a json
+
+    let joke = document.getElementById('jokeMessage') as HTMLParagraphElement;
+    joke.innerHTML = `" ${message.joke} "`; //imprimimos el mensaje por pantalla
+    reportAcudits.push(message);
+    selectedScore = 0;// es para reiniciar el valaor de la puntuación seleccionada.  
+    const valorationElement = document.querySelector(".visibleValoration"); //accedemos a los votones de valoración
+    if (valorationElement) {
+        (valorationElement as HTMLElement).style.display = "block"; //hacemos visible los botones de valoración
+    }
+}
+
+//chuck function
+async function chuckFunction(){
+    let response = await fetch(dadJokeUrl, optionsDadJoke)
+    let message = await response.json(); //lo pasamos a json
+
+    let joke = document.getElementById('jokeMessage') as HTMLParagraphElement;
+    joke.innerHTML = `" ${message.joke} "`; //imprimimos el mensaje por pantalla
+    reportAcudits.push(message);
+    selectedScore = 0;// es para reiniciar el valaor de la puntuación seleccionada.  
+    const valorationElement = document.querySelector(".visibleValoration"); //accedemos a los votones de valoración
+    if (valorationElement) {
+        (valorationElement as HTMLElement).style.display = "block"; //hacemos visible los botones de valoración
+    }
+}
+
+
 const score = (score: number) => {
     if (lastUsedAPI === "chuckJoke") {
         selectedScore = selectedScore === score ? 0 : score;
